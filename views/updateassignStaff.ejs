@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Update Staff</title>
+    </head>
+    <body>
+        <%= data %>
+        <h2>welcome user you can update your data here on just one click!!!!</h2>
+        <form action="/assignstaffUpdate" method="post">
+
+            <input type="hidden" value=<%=data._id %> name="_id">
+
+            <label for="clinicName"><b>Clinic</b></label>
+            <input type="text" value=<%=data.clinic %> name="clinicName" required>
+        
+            <label for="staff"><b>Staff</b></label>
+            <input type="text" value=<%= data.staff %> name="assignStaff" required>
+        
+            <label for="Address"><b>Address</b></label>
+            <input type="text" value=<%= data.address %> name="staffAddress" required>
+            <input type="submit" name="submit">
+            
+        </form>
+    </body>
+</html>

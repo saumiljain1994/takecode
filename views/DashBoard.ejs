@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <basefont color="red" size="10">
+  </basefont>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+
+    }
+
+    .column1 {
+      float: left;
+      width: 10%;
+      padding: 10px;
+      height: 350px;
+    }
+
+    .column2 {
+      float: left;
+      width: 90%;
+      padding: 10px;
+      height: 350px;
+      /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    /* Style the header */
+    header {
+
+      padding: 1px;
+      text-align: center;
+      font-size: 18px;
+      color: rgb(243, 18, 37);
+      height: 200px;
+    }
+
+    .open-button {
+      background-color: hsl(27, 90%, 49%);
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+
+      position: fixed;
+      bottom: 370px;
+      right: 28px;
+      width: 280px;
+    }
+
+    .assign-button {
+      background-color: hsl(27, 90%, 49%);
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+
+      position: fixed;
+      bottom: 370px;
+      left: 28px;
+      width: 280px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 2px solid #fa0606;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    /* The popup form - hidden by default */
+    .form-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      top: 77px;
+      border: 3px solid #f1f1f1;
+      background: white;
+      z-index: 9;
+    }
+
+    .assignform-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 15px;
+      top: 160px;
+      height: 50px;
+      border: 3px solid #f1f1f1;
+      background: white;
+      z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+      max-width: 500px;
+      max-height: 500px;
+      padding: -9px;
+      background-color: white;
+      botder:2px;
+      margin-left: 10px;
+    }
+
+    /* Full-width input fields */
+    .form-container input[type=text],
+    .form-container input[type=Number],
+    .form-container input[type=email] {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      border: none;
+      background: #f1f1f1;
+    }
+
+    /* When the inputs get focus, do something */
+    .form-container input[type=text]:focus,
+    .form-container input[type=number]:focus,
+    .form-container input[type=email]:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+
+    /* Set a style for the submit/login button */
+    .form-container .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    /* Add a red background color to the cancel button */
+    .form-container .cancel {
+      background-color: red;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover,
+    .open-button:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body
+  style="background-image:URL('https://www.deltadentalia.com/webres/Image/facebook/og-image.jpg'); background-repeat: no-repeat; background-size: 1350px 710px;">
+  <h2 style="text-align:center"><b><strong>AMAR DENTAL</strong></b></h2>
+  <p>For millions of people, Practo is the trusted and familiar home where they know they’ll find a healing touch. It
+    connects them with everything they need to take good care of themselves and their family - assessing health issues,
+    finding the right doctor, booking diagnostic tests, obtaining medicines, storing health records or learning new ways
+    to live healthier.</p>
+  <p><strong>Note:we are here to help you !!! <%= user.email%> .....<%= successMessage %> </strong>
+  </p>
+  
+
+  <hr>
+
+
+  <header>
+    <h2>AMAR DENTAL WECOME'S YOU </h2>
+    <p><%= new Date() %></p>
+    <p><a href="/admin/logout"><b>Logout</b></a></p>
+  </header>
+
+  <button class="open-button" onclick="openForm()">Add User</button>
+  <button class="assign-button" onclick="assignopenForm()">Assign Staff</button>
+
+  <div class="form-popup" id="myForm" style="border:1px solid">
+    <form action="/addUser" method="POST" class="form-container" id="role" enctype="multipart/form-data">
+
+      <h1>Add a user</h1>
+      <hr>
+      <label for="userName"><b>User Name</b></label>
+      <input type="text" placeholder="Enter name" name="userName" required>
+
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="userEmail" required>
+
+      <label for="contact"><b>Contact</b></label>
+      <input type="text" pattern="[0-9]{10}" placeholder="Enter your 10 digit mobile No." name="userContact" required>
+
+      <label for="Address"><b>Address</b></label>
+      <input type="text" placeholder="Enter Address" name="userAddress" required>
+
+      <input type="file" name="image">
+
+    
+<label for="role">Choose a Role:</label>
+<select id="role" name="role" form="role">
+  <option value="Basic">Basic</option>
+  <option value="Pro">Pro</option>
+  <option value="Prime">Prime</option>
+ 
+</select>
+
+
+
+
+      <button type="submit" class="btn">submit</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+
+  <div class="assignform-popup" id="assignmyForm">
+    <form action="/assignStaff" method="POST" class="form-container">
+
+      <h1>Add Assign Staff</h1>
+      <label for="userName"><b>Clinic Name></b></label>
+      <input type="text" placeholder="Enter Clinic Name" name="ClinicName" required>
+
+      <label for="address"><b>Address</b></label>
+      <input type="text" placeholder="Enter Your Address" name="assignAddress" required>
+
+      <label for="name"><b>Assign staff</b></label>
+      <input type="text" placeholder="Enter your Assign staff" name="assignStaff" required>
+
+      <button type="submit" class="btn">submit</button>
+
+      <button type="button" class="btn cancel" onclick="assigncloseForm()">Close</button>
+    </form>
+  </div>
+
+  <script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+
+    function assignopenForm() {
+      document.getElementById("assignmyForm").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+    function assigncloseForm() {
+      document.getElementById("assignmyForm").style.display = "none";
+    }
+  </script>
+
+  <div class="row">
+    <div class="column1">
+      <a href="/userList">
+        <h3>Users</h3>
+      </a>
+      <a href="/manageClinic"><b>
+          <h3>Clinic</h3>
+        </b></a>
+      <a href="/aboutUs"><b>
+          <h3>About Us</h3>
+        </b></a>
+
+      <a href="/contactUs"><b>
+          <h3>Contact Us</h3>
+        </b></a>
+
+    </div>
+       
+  </div>
+
+  <!-- <div style="background-color:rgb(241, 14, 14); height:345px; width:1332px;margin-top:5px;">
+ 
+<div style="background-color:black;color:white;padding:20px; height:45px; width:px;margin-top:5px;">
+  <a href=""><h5>Manage Staff</h5></a>
+  <a href=""><h5>About Us</h5></a>
+  <a href=""><h5>Contact Us</h5></a>
+</div>
+
+</div>
+</div> -->
+
+
+</body>
+
+</html>

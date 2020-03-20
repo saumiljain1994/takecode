@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Remove user</title>
+    </head>
+    <body>
+        <h1>Do you really want to delete the user ???</h1>
+        <form action="/staffAssignRemove" method="POST">
+        <input type="hidden" value=<%=data._id %> name="_id">
+        <input type="submit" name="submit" value="yes I'm sure">
+        </form>
+    </body>
+</html>
